@@ -1,7 +1,12 @@
 import java.util.*;
 
+/**
+ * Represents the game board in a Nonogram.
+ * 
+ * @author Preston Bohnsack
+ * @version Unreleased
+ */
 public class NonogramBoard extends GenericBoard{
-  // a class representing the board
   private final ConsecutiveLine[] rowRuns; // this array stores the runs for each row
   private final ConsecutiveLine[] colRuns; // this array stores the runs for each column
   private static NonogramBoard instance; 
@@ -16,7 +21,7 @@ public class NonogramBoard extends GenericBoard{
       Cell f = Cell.FILLED;
       Cell e = Cell.UNMARKED;
       if(num == 1){
-        solvedBoard = new Cell[][]{
+        solvedBoard = new Cell[][]{ // heart
           {e,f,e,f,e},
           {f,f,f,f,f},
           {f,f,f,f,f},
@@ -51,8 +56,6 @@ public class NonogramBoard extends GenericBoard{
           {e,f,f,f,e}
         };
       }
-      
-      
       
     }
 

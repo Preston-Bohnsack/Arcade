@@ -19,14 +19,9 @@ public class NumFilledLine {
    */
   public NumFilledLine(Cell[] line){
     for(Cell c : line){
-      numFilled = c.isFilled() ? numFilled + 1 : numFilled;
+      numFilled += c.isFilled() ? 1 : 0;
     }
   }
 
-  /**
-   * Gets the number of FILLED Cells
-   * 
-   * @return The number of FILLED Cells
-   */
   public int getNumFilled(){return numFilled;}
 }

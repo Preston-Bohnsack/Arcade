@@ -9,17 +9,12 @@ public enum ThinWall{
   EMPTY(false),
   FILLED(true);
 
-  private final boolean filled;
   /*
    * A boolean directly corresponding to which state its ThinWall is in, to make logic more 
    * readable and compact.
    */
+  private final boolean filled;
 
-  /**
-   * Sets filed, an internal representation of an ThinWall's state, to the correct value.
-   * 
-   * @param bool The value that filled will be set to.
-   */
   private ThinWall(boolean bool){filled = bool;}
 
   /**

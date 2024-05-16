@@ -1,9 +1,23 @@
 import java.util.*;
 
+/**
+ * Represents the game board in the game 2048 (TFE).
+ * 
+ * @author Preston Bohnsack
+ * @version Unreleased
+ */
 public class TFEBoard{
   private final TFETile[][] board;
   private final Scanner in;
   
+  /**
+   * Starts the game of 2048
+   */
+
+  /*
+   * Went with a static method instantiating but not returning a TFEBoard to prevent memory leaks by 
+   * preventing anyone from having an alias for a TFEBoard
+   */
   public static void start(){
     new TFEBoard();
   }
@@ -13,7 +27,6 @@ public class TFEBoard{
     board = new TFETile[4][4];
     
     while(shouldContinue()){
-      generateNewTile();
       print();
       userInput();
     }
@@ -21,27 +34,31 @@ public class TFEBoard{
     System.out.println();
   }
   
-  private boolean shouldContinue(){
-    boolean enoughSpace = false;
+  private int shouldContinue(){
+    int numOfNulls = 0
     
     for(int row = 0; row < 4; row++){
       for(int col = 0; col < 4; col++){
-        if(!enoughSpace && isEmpty(row, col)){
-          enoughSpace = true;
+        if(isEmpty(row, col)){
+          numOfNulls++;
         }
-        else if(!isEmpty(row,col) && board[row][col].getTier() >= 10){
+        else if(board[row][col].getTier() >= 10){
           endingMessage(true);
           return false;
+          // if there is a tier 10 TFETile the player wins, and gets a happy ending message
         }
       }
     }
     
-    if(!enoughSpace){
+    if(numOfNulls == 0){
       endingMessage(false);
       return false;
+      // if there is no space for a new TFETile the player loses, and gets a sad ending message
     }
     else{
+      generateNewTile(numOfNulls);
       return true;
+      // otherwise the game continues and a new TFETile must be placed on the board
     }
   }
 
@@ -50,40 +67,24 @@ public class TFEBoard{
   }
 
   private void endingMessage(boolean win){
-    if(win){
-      System.out.println("You Won, You Got A Tier 10 Tile!");
-    }
-    else{
-      System.out.println("You Failed, Your Final Score Was: " + getHighestTier());
-    }
+    System.out.println((win) ? "You Won, You Got A Tier 10 Tile!" : 
+      "You Failed, Your Final Score Was: " + getHighestTier());
   }
 
-  private void generateNewTile(){
+  private void generateNewTile(int numOfNulls){
+    int num = (int)(numOfNulls * Math.random());
     int nulls = 0;
-
-    for(int row = 0; row < 4; row++){
-      for(int col = 0; col < 4; col++){
-        if(isEmpty(row, col)){
-          nulls++;
-        }
-      }
-    }
-
-    int num = (int)(nulls * Math.random());
-    nulls = 0;
     boolean placed = false;
     
     for(int row = 0; !placed && row < 4; row++){
       for(int col = 0; col < 4; col++){
         if(isEmpty(row, col)){
-          if(num != nulls){
-            nulls++;
-          }
-          else{
+          if(num == nulls){
             board[row][col] = TFETile.generate();
             placed = true;
             break;
           }
+          nulls++;
         }
       }
     }
@@ -103,7 +104,7 @@ public class TFEBoard{
     int highestTier = 0;
     for(int row = 0; row < 4; row++){
       for(int col = 0; col < 4; col++){
-        if(!isEmpty(row,col) && board[row][col].getTier() > highestTier){
+        if((!isEmpty(row,col)) && board[row][col].getTier() > highestTier){
           highestTier = board[row][col].getTier();
         }
       }
@@ -120,27 +121,27 @@ public class TFEBoard{
       for(int col = 0; col < 4; col++){
         
         for(int row = 1; row < 4; row++){
-          if(!isEmpty(row,col)){
+          if(!isEmpty(row,col)){ // for every TFETile
             int lastSpace = row;
-            for(int row2 = row - 1; row2 >= 0; row2--){
+            for(int row2 = row - 1; row2 >= 0; row2--){ // go through the row
               if(isEmpty(row2,col)){
-                lastSpace = row2;
-                if(row2 == 0){
+                lastSpace = row2; // find the empty space that the TFETile should move to if it doesn't get merged
+                if(row2 == 0){ // makes sure to move the TFETile if the empty space is the last space checked
                   board[lastSpace][col] = board[row][col];
                   board[row][col] = null;
                   break;
                 }
               }
-              else if(board[row][col].equals(board[row2][col])){
+              else if(board[row][col].equals(board[row2][col])){ // if the TFETile can be merged, than merge it
                 board[row2][col].merge();
                 board[row][col] = null;
                 break;
               }
-              else if(lastSpace != row){
+              else if(lastSpace != row){ // if the TFETile asn't gotten merged, move it to the appropriate empty space
                 board[lastSpace][col] = board[row][col];
                 board[row][col] = null;
                 break;
-              }
+              } // this continues for all of WASD, just in different directions
             }
           }
         }
