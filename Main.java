@@ -8,10 +8,19 @@ public class Main{
       String str = in.nextLine();
       System.out.println();
       if(str.equals("Nonogram")){
-        System.out.println("Which board do you want to play on? 1, 2, or 3?");
-        int num = in.nextInt();
-        in.nextLine();
-        NonogramBoard.startGame(num);
+        while(true){
+          System.out.println("Which board do you want to play on? 1, 2, 3, or 4?");
+          try{
+            int num = in.nextInt();
+            in.nextLine();
+            if(1 <= num && 4 >= num){
+              NonogramBoard.startGame(num);
+              break;
+            }
+          }
+
+          System.out.println("Invalid input, please choose a number 1-4.");
+        }
       }
       else if(str.equals("Aquarium")){
        AquariumBoard.startGame();

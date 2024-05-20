@@ -11,7 +11,7 @@ public class TFEBoard{
   private final Scanner in;
   
   /**
-   * Starts the game of 2048
+   * Starts a game of 2048
    */
 
   /*
