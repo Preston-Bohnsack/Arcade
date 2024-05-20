@@ -136,7 +136,6 @@ public class NonogramBoard extends GenericBoard{
   }
 
   private int getMostColRuns(){
-    // gets the most number of runs in a column for margins
     int champ = 0;
     for(ConsecutiveLine lineRun : colRuns){
       if(lineRun.getNumRuns() > champ){
@@ -147,7 +146,6 @@ public class NonogramBoard extends GenericBoard{
   }
   
   private int getMostRowRuns(){
-    // gets the most number of runs in a row for margins
     int champ = 0;
     for(ConsecutiveLine lineRun : rowRuns){
       if(lineRun.getNumRuns() > champ){
