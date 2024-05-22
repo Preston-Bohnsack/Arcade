@@ -22,16 +22,14 @@ public class GenericBoard{
   }
   
   private void play(){
-    boolean loop = true;
-    while(loop){
+    while(true){
       userInput();
       print();
       if(isFinished()){
         endingMessage();
         printSolvedBoard();
         System.out.println();
-        loop = false;
-        break;
+        return;
       }
     }
   }

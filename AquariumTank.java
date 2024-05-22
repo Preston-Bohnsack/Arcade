@@ -7,7 +7,8 @@ import java.util.*;
  * @version Unreleased
  */
 public class AquariumTank{
-  private ArrayList<AquariumCell> acells = new ArrayList<AquariumCell>();
+  private ArrayList<AquariumCell> acells;
+  public static AquariumBoard aquariumBoard;
 
   /**
    * Starts an AquariumTank with its first AquariumCell, that recursively adds others to said
@@ -17,7 +18,12 @@ public class AquariumTank{
    * @param y The y of the first AquariumCell. Precondition: 0 <= y <= height - 1.
    */
   public AquariumTank(int x, int y){
-    AquariumBoard.getInstance().setAquariumCellsTank(x,y,this);
+    acells = new ArrayList<AquariumCell>();
+    aquariumBoard.setAquariumCellsTank(x,y,this);
+  }
+
+  public void setAquariumBoard(AquariumBoard aqBoard){
+    aquariumBoard = aqBoard;
   }
 
   /**

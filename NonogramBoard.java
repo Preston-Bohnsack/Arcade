@@ -58,7 +58,7 @@ public class NonogramBoard extends GenericBoard{
           {e,f,e,f,e}
         };
       }
-      else if (num == 4){
+      else{
         solvedBoard = new Cell[][]{ // smile
           {e,f,e,f,e},
           {e,f,e,f,e},

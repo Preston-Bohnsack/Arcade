@@ -1,6 +1,6 @@
 
 /**
- * Represents the states and functions an tile can be or do in the game Aquarium. 
+ * Represents a tile in the game Aquarium. 
  * 
  * @author Preston Bohnsack
  * @version Unreleased
@@ -93,7 +93,7 @@ public class AquariumCell{
     if(tank == null){
       tank = newTank;
       tank.add(this);
-      AquariumBoard aq = AquariumBoard.getInstance();
+      AquariumBoard aq = AquariumTank.getAquariumBoard();
       
       if(aq.isValidCoordinate(x, y-1) && aq.isHWallEmpty(x,y)){
         aq.setAquariumCellsTank(x, y-1, tank);

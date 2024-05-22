@@ -1,25 +1,32 @@
 import java.util.*;
 
 /**
- * Represents the board in an Aquarium game.
+ * An AquariumBoard is used to play the game Aquaruim
  * 
  * @author Preston Bohnsack
  * @version Unreleased
  */
 public class AquariumBoard extends GenericBoard{
-  private final ThinWall[][] hwalls;
-  private final ThinWall[][] vwalls;
+  private final ThinWall[][] horizontalWalls;
+  private final ThinWall[][] verticalWalls;
   private final NumFilledLine[] rowRuns;
   private final NumFilledLine[] colRuns;
   private final AquariumCell[][] board;
   private static AquariumBoard instance;
 
+  /**
+   * The startGame method starts a game of Aquarium.
+   */
+
+  /*
+   * Went with a static method instantiating but not returning an AquariumBoard to prevent memory 
+   * leaks by preventing anyone from having an alias for it.
+   */
   public static void startGame(){
     new AquariumBoard();
   }
   
   private AquariumBoard(){
-    instance = this;
     {
       Cell a = Cell.FILLED;
       Cell b = Cell.UNMARKED;
@@ -34,7 +41,7 @@ public class AquariumBoard extends GenericBoard{
     
       ThinWall c = ThinWall.FILLED;
       ThinWall d = ThinWall.EMPTY;
-      hwalls = new ThinWall[][]{
+      horizontalWalls = new ThinWall[][]{
         {c,c,c,c,c,c},
         {c,d,c,c,c,d},
         {d,d,d,d,c,c},
@@ -43,10 +50,9 @@ public class AquariumBoard extends GenericBoard{
         {d,c,d,d,d,d},
         {c,c,c,c,c,c}
       };
-      /*
-       * include both the top and bottom line of horizontal walls.
-       */
-      vwalls = new ThinWall[][]{
+      // include both the top and bottom line of horizontal walls.
+      
+      verticalWalls = new ThinWall[][]{
         {c,d,c,d,d,d,c},
         {c,c,d,d,d,c,c},
         {c,c,d,d,c,d,c},
@@ -54,9 +60,7 @@ public class AquariumBoard extends GenericBoard{
         {c,c,c,d,d,c,c},
         {c,c,d,d,d,c,c}
       };
-      /*
-       * include both side walls.
-       */
+      // include both side walls.
     }
 
     height = solvedBoard.length;
@@ -72,34 +76,25 @@ public class AquariumBoard extends GenericBoard{
     rowRuns = new NumFilledLine[height];
     for(int row = 0; row < height; row++){
       rowRuns[row] = new NumFilledLine(solvedBoard[row]);
-      for(int col = 0; col < width; col++){
-        board[row][col] = new AquariumCell(col, row);
-      }
     }
 
     colRuns = new NumFilledLine[width];
     for(int col = 0; col < width; col++){
       Cell[] tempCol = new Cell[height];
       for(int row = 0; row < height; row++){
-        tempCol[row] = solvedBoard[row][col];
+        tempCol[row] = board[row][col];
       }
       colRuns[col] = new NumFilledLine(tempCol);
     }
 
-    int i = 1;
+    AquariumTank.setAquariumBoard(this);
     for(int row = 0; row < height; row++){
       for(int col = 0; col < width; col++){
         new AquariumTank(col, row);
-        i++;
       }
     }
 
     start();
-    instance = null;
-  }
-  
-  public static AquariumBoard getInstance(){
-    return instance;
   }
 
   public void setAquariumCellsTank(int x, int y, AquariumTank tank){
@@ -107,11 +102,11 @@ public class AquariumBoard extends GenericBoard{
   }
 
   public boolean isHWallEmpty(int x, int y){
-    return (hwalls[y][x] == null) ? false : hwalls[y][x].isEMPTY();
+    return (horizontalWalls[y][x] == null) ? false : horizontalWalls[y][x].isEMPTY();
   }
 
   public boolean isVWallEmpty(int x, int y){
-    return (vwalls[y][x] == null) ? false : vwalls[y][x].isEMPTY();
+    return (verticalWalls[y][x] == null) ? false : verticalWalls[y][x].isEMPTY();
   }
 
   public boolean isValidCoordinate(int x, int y){
@@ -136,7 +131,7 @@ public class AquariumBoard extends GenericBoard{
 
     for(int row = 0; row < width; row++){
       System.out.print(" ");
-      for(ThinWall hwall : hwalls[row]){
+      for(ThinWall hwall : horizontalWalls[row]){
         String str = hwall.isEMPTY() ? " " : "-";
         System.out.print("+" + str);
       }
@@ -145,19 +140,19 @@ public class AquariumBoard extends GenericBoard{
 
       System.out.print(rowRuns[row].getNumFilled());
       for(int col = 0; col < height; col++){
-        String str = vwalls[row][col].isEMPTY() ? " " : "|";
+        String str = verticalWalls[row][col].isEMPTY() ? " " : "|";
         System.out.print(str);
         System.out.print(board[row][col]);
       }
 
       {
-        String str = vwalls[row][height].isEMPTY() ? " " : "|";
+        String str = verticalWalls[row][height].isEMPTY() ? " " : "|";
         System.out.println(str);
       }
     }
     
     System.out.print(" ");
-    for(ThinWall hwall : hwalls[height - 1]){
+    for(ThinWall hwall : horizontalWalls[height - 1]){
       String str = hwall.isEMPTY() ? " " : "-";
       System.out.print("+" + str);
     }
@@ -174,7 +169,7 @@ public class AquariumBoard extends GenericBoard{
 
     for(int row = 0; row < width; row++){
       System.out.print(" ");
-      for(ThinWall hwall : hwalls[row]){
+      for(ThinWall hwall : horizontalWalls[row]){
         String str = hwall.isEMPTY() ? " " : "-";
         System.out.print("+" + str);
       }
@@ -183,19 +178,19 @@ public class AquariumBoard extends GenericBoard{
 
       System.out.print(rowRuns[row].getNumFilled());
       for(int col = 0; col < height; col++){
-        String str = vwalls[row][col].isEMPTY() ? " " : "|";
+        String str = verticalWalls[row][col].isEMPTY() ? " " : "|";
         System.out.print(str);
         System.out.print((board[row][col].getCell().isFilled()) ? "#" : " ");
       }
 
       {
-        String str = vwalls[row][height].isEMPTY() ? " " : "|";
+        String str = verticalWalls[row][height].isEMPTY() ? " " : "|";
         System.out.println(str);
       }
     }
     
     System.out.print(" ");
-    for(ThinWall hwall : hwalls[height - 1]){
+    for(ThinWall hwall : horizontalWalls[height - 1]){
       String str = hwall.isEMPTY() ? " " : "-";
       System.out.print("+" + str);
     }
@@ -239,7 +234,8 @@ public class AquariumBoard extends GenericBoard{
       y = Integer.parseInt(str.substring(2,3)) - 1;
     }
     catch(Exception e){
-      System.out.println("Invalid input, please try again.");
+      System.out.println("Invalid Coordinates");
+      return;
     }
     
     if(y >= 0 && x >= 0 && y < height && x < width){
@@ -254,6 +250,9 @@ public class AquariumBoard extends GenericBoard{
         case "fill":
           c = Cell.FILLED;
           break;
+        case default:
+          System.out.println("Invalid Cell Type");
+          return;
       }
       
       board[y][x].setCell(c, true);
