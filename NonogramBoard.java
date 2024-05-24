@@ -1,7 +1,7 @@
 import java.util.*;
 
 /**
- * Represents the game board in a Nonogram.
+ * Used to start and play a Nonogram.
  * 
  * @author Preston Bohnsack
  * @version Unreleased
@@ -14,7 +14,7 @@ public class NonogramBoard extends GenericBoard{
    * Starts a Nonogram with a specific board.
    * 
    * @param num The number corresponding to which board the player will play on. There are 4 boards so
-   * num MUST be 1-4 (inclusive).
+   * num should be 1-4 (inclusive).
    */
   public static void startGame(int num){
     new NonogramBoard(num);
@@ -24,7 +24,7 @@ public class NonogramBoard extends GenericBoard{
    * Starts a Nonogram with a random board.
    */
   public static void startGame(){
-    new NonogramBoard(((int)(Math.random() * 4)) + 1);
+   this(((int)(Math.random() * 4)) + 1);
   }
   
   private NonogramBoard(int num){
@@ -71,25 +71,23 @@ public class NonogramBoard extends GenericBoard{
 
     height = solvedBoard.length;
     width = solvedBoard[0].length;
+
     board = new Cell[height][width];
-    for(Cell[] row : board){
-      for(int col = 0; col < width; col++){
-        row[col] = Cell.UNMARKED;
-      }
-    }
+    rowRuns = new ConsecutiveLine[height];
+    colRuns = new ConsecutiveLine[width];
 
-    rowRuns = new ConsecutiveLine[height]; // making the counts of consecutive filled Cells for each row
-    for(int row = 0; row < height; row++){
-      rowRuns[row] = new ConsecutiveLine(solvedBoard[row]);
-    }
-
-    colRuns = new ConsecutiveLine[width]; // making the counts of consecutive filled Cells for each col
-    for(int col = 0; col < width; col++){
-      Cell[] tempCol = new Cell[height];
+    {
+      Cell[][] rowColFlippedBoard = new Cell[height][width];
       for(int row = 0; row < height; row++){
-        tempCol[row] = solvedBoard[row][col];
+        rowRuns[row] = new ConsecutiveLine(solvedBoard[row]);
+        for(int col = 0; col < width; col++){
+          board[row][col] = Cell.UNMARKED;
+          rowColFlippedBoard[col][row] = solvedBoard[row][col];
+          if(row == height - 1){
+            colRuns[col] = new ConsecutiveLine(rowColFlippedBoard[col]);
+          }
+        }
       }
-      colRuns[col] = new ConsecutiveLine(tempCol);
     }
     
     start();

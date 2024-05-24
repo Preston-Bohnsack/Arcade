@@ -1,7 +1,7 @@
 import java.util.*;
 
 /**
- * Represents the game board in the game 2048 (TFE).
+ * Used to start and play a game of 2048 (TFE).
  * 
  * @author Preston Bohnsack
  * @version Unreleased
@@ -15,7 +15,7 @@ public class TFEBoard{
    */
 
   /*
-   * Went with a static method instantiating but not returning a TFEBoard to prevent memory leaks by 
+   * I went with a static method instantiating but not returning a TFEBoard to prevent memory leaks by 
    * preventing anyone from having an alias for a TFEBoard
    */
   public static void start(){
@@ -30,7 +30,6 @@ public class TFEBoard{
       print();
       userInput();
     }
-    print();
     System.out.println();
   }
   
@@ -52,6 +51,7 @@ public class TFEBoard{
     
     if(numOfNulls == 0){
       endingMessage(false);
+      print();
       return false;
       // if there is no space for a new TFETile the player loses, and gets a sad ending message
     }
@@ -74,15 +74,13 @@ public class TFEBoard{
   private void generateNewTile(int numOfNulls){
     int num = (int)(numOfNulls * Math.random());
     int nulls = 0;
-    boolean placed = false;
     
-    for(int row = 0; !placed && row < 4; row++){
+    for(int row = 0; row < 4; row++){
       for(int col = 0; col < 4; col++){
         if(isEmpty(row, col)){
           if(num == nulls){
             board[row][col] = TFETile.generate();
-            placed = true;
-            break;
+            return;
           }
           nulls++;
         }
@@ -137,7 +135,7 @@ public class TFEBoard{
                 board[row][col] = null;
                 break;
               }
-              else if(lastSpace != row){ // if the TFETile asn't gotten merged, move it to the appropriate empty space
+              else if(lastSpace != row){ // if the TFETile can't get merged, move it to the appropriate empty space
                 board[lastSpace][col] = board[row][col];
                 board[row][col] = null;
                 break;
@@ -243,6 +241,10 @@ public class TFEBoard{
         }
         
       }
+    }
+
+    else{
+      System.out.println("Invalid Direction, please type W, A, S, or D.");
     }
   }
   

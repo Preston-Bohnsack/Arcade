@@ -12,11 +12,6 @@ public class AquariumBoard extends GenericBoard{
   private final NumFilledLine[] rowRuns;
   private final NumFilledLine[] colRuns;
   private final AquariumCell[][] board;
-  private static AquariumBoard instance;
-
-  /**
-   * The startGame method starts a game of Aquarium.
-   */
 
   /*
    * Went with a static method instantiating but not returning an AquariumBoard to prevent memory 
@@ -67,24 +62,20 @@ public class AquariumBoard extends GenericBoard{
     width = solvedBoard[0].length;
 
     board = new AquariumCell[height][width];
-    for(int row  = 0; row < height; row++){
-      for(int col = 0; col < width; col++){
-        board[row][col] = new AquariumCell(col, row);
-      }
-    }
-
     rowRuns = new NumFilledLine[height];
-    for(int row = 0; row < height; row++){
-      rowRuns[row] = new NumFilledLine(solvedBoard[row]);
-    }
-
     colRuns = new NumFilledLine[width];
-    for(int col = 0; col < width; col++){
-      Cell[] tempCol = new Cell[height];
-      for(int row = 0; row < height; row++){
-        tempCol[row] = board[row][col];
+    {
+      Cell[][] rowColFlippedBoard = new Cell[height][width];
+      for(int row  = 0; row < height; row++){
+        rowRuns[row] = new NumFilledLine(solvedBoard[row]);
+        for(int col = 0; col < width; col++){
+          board[row][col] = new AquariumCell(col, row);
+          rowColFlippedBoard[col][row] = solvedBoard[row][col];
+          if(row == height - 1){
+            colRuns[col] = new ConsecutiveLine(rowColFlippedBoard[col]);
+          }
+        }
       }
-      colRuns[col] = new NumFilledLine(tempCol);
     }
 
     AquariumTank.setAquariumBoard(this);

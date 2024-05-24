@@ -7,34 +7,24 @@ import java.util.*;
  * @version Unreleased
  */
 public class ConsecutiveLine {
-  // this class is for the runs corresponding to a certain column or row
+  /**
+   * Each run is represented as the number of consecutive FILLED cells that make it up, and the runs 
+   * are stored in an arrayList<Integer> in order.
+   */
   private final ArrayList<Integer> runs = new ArrayList<Integer>();
-  /*
-    each run is represented as the number of consecutive filled cells that make it up, and the runs are
-    stored in am arrayList for integers
-  */
   
   public ConsecutiveLine(Cell[] line){
-    int startFilledIndex = -1;
-    boolean inaRun = false;
-    for(int i = 0; i < line.length; i++){
-      if(!inaRun && line[i].isFilled()){
-        startFilledIndex = i;
-        inaRun = true;
-        for(int j = i; j < line.length; j++){
-          if(!line[j].isFilled()){
-            runs.add(j - i);
-            startFilledIndex = -1;
-            inaRun = false;
-            i = j + 1;
+    for(int firstIndex = 0; firstIndex < line.length; firstIndex++){
+      if(!inaRun && line[firstIndex].isFilled()){ // find the start of a run
+        for(int secondIndex = firstIndex; secondIndex < line.length; secondIndex++){ 
+          if(!line[secondIndex].isFilled()){ // find the end of a run
+            runs.add(secondIndex - firstIndex; // add it to the list
+            firstIndex = secondIndex + 1; // resume looking after the end of this run
             break;
           }
-          if(line[j].isFilled() && j == line.length - 1){
-            runs.add(j + 1 - i);
-            // startFilledIndex = -1;
-            // inaRun = false;
-            // i = j;
-            // break;
+          else if(line[secondIndex].isFilled() && secondIndex == line.length - 1){ // if the run contiues to the end of the line
+            runs.add(secondIndex - firstIndex + 1); // add it to the list
+            return;
           }
         }
       }

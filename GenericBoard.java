@@ -1,30 +1,21 @@
 import java.util.*;
 
 public class GenericBoard{
-  protected Cell[][] solvedBoard; // the solution to the 
+  protected Cell[][] solvedBoard; // the solution to the game
   protected Cell[][] board; // the playing board that the player can change
   protected int height;
   protected int width;
-  protected final Scanner in = new Scanner(System.in);
+  protected final Scanner in;
   
   protected void start(){
-    print();
+    in = new Scanner(System.in);
     play();
-  }
-  
-  protected void print(){
-    for(Cell[] cellArr : board){
-      for(Cell c : cellArr){
-        System.out.print(c);
-      }
-      System.out.println();
-    }
   }
   
   private void play(){
     while(true){
-      userInput();
       print();
+      userInput();
       if(isFinished()){
         endingMessage();
         printSolvedBoard();
@@ -33,19 +24,14 @@ public class GenericBoard{
       }
     }
   }
-  
-  protected void printSolvedBoard(){
-    for(int row = 0; row < height; row++){
-      for(int col = 0; col < width; col++){
-        String s = (solvedBoard[row][col].isFilled()) ? "#" : " ";
-        System.out.print(s);
+
+  protected void print(){
+    for(Cell[] cellArr : board){
+      for(Cell c : cellArr){
+        System.out.print(((c == null) ? "-" : c));
       }
       System.out.println();
     }
-  }
-
-  protected void endingMessage(){
-    System.out.println("You Solved It!");
   }
   
   protected void userInput(){
@@ -69,20 +55,24 @@ public class GenericBoard{
       y = Integer.parseInt(str.substring(2,3)) - 1;
     }
     catch(Exception e){
-      System.out.println("Invalid input, please try again.");
+      System.out.println("Invalid coordinates, please try again.");
+      return;
     }
     
     if(y >= 0 && x >= 0 && y < height && x < width){
       switch (cellType) {
         case "empty":
           board[y][x] = Cell.UNMARKED;
-          break;
+          return;
         case "cross":
           board[y][x] = Cell.CROSSED_OUT;
-          break;
+          return;
         case "fill":
           board[y][x] = Cell.FILLED;
-          break;
+          return;;
+        case default:
+          System.out.println("Invalid Cell type, please try again");
+          return;
       }
     }
   }
@@ -96,5 +86,19 @@ public class GenericBoard{
       }
     }
     return true;
+  }
+
+  protected void endingMessage(){
+    System.out.println("You Solved It!");
+  }
+
+  protected void printSolvedBoard(){
+    for(int row = 0; row < height; row++){
+      for(int col = 0; col < width; col++){
+        String s = (solvedBoard[row][col].isFilled()) ? "#" : " ";
+        System.out.print(s);
+      }
+      System.out.println();
+    }
   }
 }

@@ -1,7 +1,7 @@
 import java.util.*;
 
 /**
- * Represents a single tile in the game 2048 (TFE).
+ * The TFETile represents a single tile in the game 2048 (TFE).
  * 
  * @author Preston Bohnsack
  * @version Unreleased
@@ -37,13 +37,10 @@ public class TFETile{
   public boolean equals(TFETile other){
     return ((other != null) && (tier == other.getTier()));
   }
-  
-  public static boolean equals(TFETile a, TFETile b){
-    return ((a != null) && (a.equals(b)));
-  }
+
 
   /**
-   * Increases a TFETile's value and tier as appropriate for merging..
+   * Increases a TFETile's value and tier as appropriate when merging.
    */
   public void merge(){
     tier++;
@@ -60,6 +57,13 @@ public class TFETile{
     return new TFETile(((int)(Math.random() * 1.1)) + 1)
   }
 
+
+/*
+ * toString uses the tier of a TFETile, unlike the original 2048, which uses value, as since this 
+ * program uses the console to print the board. This makes managing multiple digit numbers, without 
+ * being able to resize text with an actual GUI, is very difficult. Using tier instead of value 
+ * delays this, so the user wins when they reach a tier 10 tile, which has a value of 1024, not 2048.
+ */
   public String toString(){
     return "" + tier;
   }
