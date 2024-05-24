@@ -39,15 +39,13 @@ public enum Cell{
   public boolean isFilled(){return flag == 1;}
 
   public Cell copy(){
-    // switch(flag){
-    //   case -1 : return Cell.CROSSED_OUT;
-    //   case 0 : return Cell.UNMARKED;
-    //   case 1 : return Cell.FILLED;
-    // }
+    switch(flag){
+      case -1 : return Cell.CROSSED_OUT;
+      case 0 : return Cell.UNMARKED;
+      case 1 : return Cell.FILLED;
+    }
 
-    // return null;
-
-    return this(flag);
+    return null;
 
   }
 

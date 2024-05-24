@@ -24,7 +24,7 @@ public class NonogramBoard extends GenericBoard{
    * Starts a Nonogram with a random board.
    */
   public static void startGame(){
-   this(((int)(Math.random() * 4)) + 1);
+   new NonogramBoard(((int)(Math.random() * 4)) + 1);
   }
   
   private NonogramBoard(int num){
@@ -74,21 +74,24 @@ public class NonogramBoard extends GenericBoard{
 
     board = new Cell[height][width];
     rowRuns = new ConsecutiveLine[height];
-    colRuns = new ConsecutiveLine[width];
-
-    {
-      Cell[][] rowColFlippedBoard = new Cell[height][width];
-      for(int row = 0; row < height; row++){
-        rowRuns[row] = new ConsecutiveLine(solvedBoard[row]);
-        for(int col = 0; col < width; col++){
-          board[row][col] = Cell.UNMARKED;
-          rowColFlippedBoard[col][row] = solvedBoard[row][col];
-          if(row == height - 1){
-            colRuns[col] = new ConsecutiveLine(rowColFlippedBoard[col]);
-          }
-        }
+    
+    for(int row = 0; row < height; row++){
+      rowRuns[row] = new ConsecutiveLine(solvedBoard[row]);
+      for(int col = 0; col < width; col++){
+        board[row][col] = Cell.UNMARKED;
       }
     }
+    
+    colRuns = new ConsecutiveLine[width];
+    
+    for(int col = 0; col < width; col++){
+      Cell[] column = new Cell[height];
+      for(int row = 0; row < height; row++){
+        column[row] = solvedBoard[row][col];
+      }
+      colRuns[col] = new ConsecutiveLine(column);
+    }
+
     
     start();
   }
@@ -97,19 +100,15 @@ public class NonogramBoard extends GenericBoard{
     int rowMargin = getMostRowRuns();
     int colMargin = getMostColRuns();
     for(int row = 0; row < colMargin; row++){
-      System.out.print(" ");
-      for(int col = 0; col < rowMargin + width; col++){
-        if(col < rowMargin){
-          System.out.print(" ");
+      for(int col = 0; col < rowMargin; col++){
+        System.out.print(" ");
+      }
+      for(int col = 0; col < width; col++){
+        if(colRuns[col].getNumRuns() <= colMargin - row){
+          System.out.print(colRuns[col].getRuns().get(row));
         }
         else{
-          ArrayList<Integer> runs = colRuns[col - rowMargin].getRuns();
-          if(!(runs.size() < rowMargin - row)){
-            System.out.print(runs.get(row - (rowMargin - runs.size())));
-          }
-          else{
-            System.out.print(" ");
-          }
+          System.out.print(" ");
         }
       }
       System.out.println();
@@ -124,7 +123,6 @@ public class NonogramBoard extends GenericBoard{
       for(int i = 0; i < runs.size(); i++){
         System.out.print(runs.get(i));
       }
-      System.out.print(" ");
       for(int col = 0; col < width; col++){
         System.out.print(board[row][col]);
       }

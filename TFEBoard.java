@@ -33,8 +33,8 @@ public class TFEBoard{
     System.out.println();
   }
   
-  private int shouldContinue(){
-    int numOfNulls = 0
+  private boolean shouldContinue(){
+    int numOfNulls = 0;
     
     for(int row = 0; row < 4; row++){
       for(int col = 0; col < 4; col++){
@@ -135,9 +135,12 @@ public class TFEBoard{
                 board[row][col] = null;
                 break;
               }
-              else if(lastSpace != row){ // if the TFETile can't get merged, move it to the appropriate empty space
-                board[lastSpace][col] = board[row][col];
-                board[row][col] = null;
+              else{ // if the TFETile can't get merged, move it to the appropriate empty space
+                if(lastSpace != row){
+                  board[lastSpace][col] = board[row][col];
+                  board[row][col] = null;
+                }
+                
                 break;
               } // this continues for all of WASD, just in different directions
             }
@@ -167,9 +170,12 @@ public class TFEBoard{
                 board[row][col] = null;
                 break;
               }
-              else if(lastSpace != row){
-                board[lastSpace][col] = board[row][col];
-                board[row][col] = null;
+              else{
+                if(lastSpace != row){
+                  board[lastSpace][col] = board[row][col];
+                  board[row][col] = null;
+                }
+                
                 break;
               }
             }
@@ -199,9 +205,12 @@ public class TFEBoard{
                 board[row][col] = null;
                 break;
               }
-              else if(lastSpace != col){
-                board[row][lastSpace] = board[row][col];
-                board[row][col] = null;
+              else{
+                if(lastSpace != col){
+                  board[row][lastSpace] = board[row][col];
+                  board[row][col] = null;
+                }
+                
                 break;
               }
             }
@@ -231,9 +240,12 @@ public class TFEBoard{
                 board[row][col] = null;
                 break;
               }
-              else if(lastSpace != col){
-                board[row][lastSpace] = board[row][col];
-                board[row][col] = null;
+              else{
+                if(lastSpace != col){
+                  board[row][lastSpace] = board[row][col];
+                  board[row][col] = null;
+                }
+                
                 break;
               }
             }
@@ -242,9 +254,9 @@ public class TFEBoard{
         
       }
     }
-
     else{
       System.out.println("Invalid Direction, please type W, A, S, or D.");
+      System.out.println();
     }
   }
   

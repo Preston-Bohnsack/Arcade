@@ -54,7 +54,7 @@ public class TFETile{
    * @return The TFETile object to be placed into an empty spot on the board.
    */
   public static TFETile generate(){
-    return new TFETile(((int)(Math.random() * 1.1)) + 1)
+    return new TFETile(((int)(Math.random() * 1.1)) + 1);
   }
 
 

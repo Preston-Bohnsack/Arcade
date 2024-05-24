@@ -13,23 +13,27 @@ public class Main{
           try{
             int num = in.nextInt();
             in.nextLine();
-            if(1 <= num && 4 >= num){
-              NonogramBoard.startGame(num);
-              break;
-            }
+            NonogramBoard.startGame(num);
+            return;
           }
-
-          System.out.println("Invalid input, please choose a number 1-4.");
+          catch(Exception e){
+            in.nextLine();
+            System.out.println();
+            System.out.println("Invalid input, please choose a number 1-4.");
+            
+          }
         }
       }
       else if(str.equals("Aquarium")){
        AquariumBoard.startGame();
+       return;
       }
       else if(str.equals("2048")){
         TFEBoard.start();
+        return;
       }
       else{
-        System.out.print("Please try again.");
+        System.out.print("Please try again. ");
       }
     }
   }

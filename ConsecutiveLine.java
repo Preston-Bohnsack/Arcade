@@ -14,17 +14,24 @@ public class ConsecutiveLine {
   private final ArrayList<Integer> runs = new ArrayList<Integer>();
   
   public ConsecutiveLine(Cell[] line){
-    for(int firstIndex = 0; firstIndex < line.length; firstIndex++){
-      if(!inaRun && line[firstIndex].isFilled()){ // find the start of a run
-        for(int secondIndex = firstIndex; secondIndex < line.length; secondIndex++){ 
-          if(!line[secondIndex].isFilled()){ // find the end of a run
-            runs.add(secondIndex - firstIndex; // add it to the list
-            firstIndex = secondIndex + 1; // resume looking after the end of this run
+    int length = line.length;
+    for(int startIndex = 0; startIndex < length; startIndex++){
+      if(line[startIndex].isFilled()){
+        for(int endIndex = startIndex + 1; endIndex < length; endIndex++){
+          if(endIndex == length){
+            runs.add(1);
+            startIndex = endIndex;
             break;
           }
-          else if(line[secondIndex].isFilled() && secondIndex == line.length - 1){ // if the run contiues to the end of the line
-            runs.add(secondIndex - firstIndex + 1); // add it to the list
-            return;
+          else if(endIndex == length - 1){
+            runs.add(endIndex - startIndex + ((line[endIndex].isFilled()) ? (1) : (0)));
+            startIndex = endIndex;
+            break;
+          }
+          else if(!line[endIndex].isFilled()){
+            runs.add(endIndex - startIndex);
+            startIndex = endIndex;
+            break;
           }
         }
       }

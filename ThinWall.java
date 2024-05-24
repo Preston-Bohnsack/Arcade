@@ -6,7 +6,6 @@ public enum ThinWall{
   private final boolean filled;
 
   private ThinWall(boolean bool){filled = bool;}
-
   public boolean isEMPTY(){return !filled;}
   public boolean isFILLED(){return filled;}
 }

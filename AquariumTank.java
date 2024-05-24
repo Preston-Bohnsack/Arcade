@@ -18,6 +18,8 @@ public class AquariumTank{
   public static void setAquariumBoard(AquariumBoard aqBoard){
     aquariumBoard = aqBoard;
   }
+  
+  public static AquariumBoard getAquariumBoard(){return aquariumBoard;}
 
   public void add(AquariumCell ac){acells.add(ac);}
 
@@ -34,7 +36,7 @@ public class AquariumTank{
     }
     else if(!cell.isFilled()){
       for(AquariumCell ac : acells){
-        if((ac.getY() <= y){ // smaller y value is higher
+        if(ac.getY() <= y){ // smaller y value is higher
           ac.setCell(cell, false);
         }
       }

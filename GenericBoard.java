@@ -5,14 +5,14 @@ public class GenericBoard{
   protected Cell[][] board; // the playing board that the player can change
   protected int height;
   protected int width;
-  protected final Scanner in;
+  protected final Scanner in = new Scanner(System.in);;
   
   protected void start(){
-    in = new Scanner(System.in);
     play();
   }
   
   private void play(){
+    
     while(true){
       print();
       userInput();
@@ -69,8 +69,8 @@ public class GenericBoard{
           return;
         case "fill":
           board[y][x] = Cell.FILLED;
-          return;;
-        case default:
+          return;
+        default:
           System.out.println("Invalid Cell type, please try again");
           return;
       }

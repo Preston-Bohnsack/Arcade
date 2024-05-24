@@ -72,7 +72,7 @@ public class AquariumBoard extends GenericBoard{
           board[row][col] = new AquariumCell(col, row);
           rowColFlippedBoard[col][row] = solvedBoard[row][col];
           if(row == height - 1){
-            colRuns[col] = new ConsecutiveLine(rowColFlippedBoard[col]);
+            colRuns[col] = new NumFilledLine(rowColFlippedBoard[col]);
           }
         }
       }
@@ -241,7 +241,7 @@ public class AquariumBoard extends GenericBoard{
         case "fill":
           c = Cell.FILLED;
           break;
-        case default:
+        default:
           System.out.println("Invalid Cell Type");
           return;
       }
