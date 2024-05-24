@@ -1,8 +1,8 @@
 import java.util.*;
 
 public class GenericBoard{
-  protected Cell[][] solvedBoard; // the solution to the game
-  protected Cell[][] board; // the playing board that the player can change
+  protected Cell[][] solvedBoard;
+  protected Cell[][] board;
   protected int height;
   protected int width;
   protected final Scanner in = new Scanner(System.in);;
@@ -12,7 +12,6 @@ public class GenericBoard{
   }
   
   private void play(){
-    
     while(true){
       print();
       userInput();
@@ -55,7 +54,7 @@ public class GenericBoard{
       y = Integer.parseInt(str.substring(2,3)) - 1;
     }
     catch(Exception e){
-      System.out.println("Invalid coordinates, please try again.");
+      System.out.println("Invalid Coordinates. Please type an X and Y coordiante seperated by a single space");
       return;
     }
     
@@ -71,9 +70,13 @@ public class GenericBoard{
           board[y][x] = Cell.FILLED;
           return;
         default:
-          System.out.println("Invalid Cell type, please try again");
+          System.out.println("Invalid Cell type. The valid Cell types are empty, cross, and fill");
           return;
       }
+    }
+    else{
+      System.out.println("X should be between 1 and " + width + ", and Y should be between 1 and " + height);
+      return;
     }
   }
 

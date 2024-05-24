@@ -44,7 +44,7 @@ public class TFEBoard{
         else if(board[row][col].getTier() >= 10){
           endingMessage(true);
           return false;
-          // if there is a tier 10 TFETile the player wins, and gets a happy ending message
+          // if there is a tier 10 TFETile the player wins, and gets a happy ending message.
         }
       }
     }
@@ -53,12 +53,12 @@ public class TFEBoard{
       endingMessage(false);
       print();
       return false;
-      // if there is no space for a new TFETile the player loses, and gets a sad ending message
+      // if there is no space for a new TFETile the player loses, and gets a sad ending message.
     }
     else{
       generateNewTile(numOfNulls);
       return true;
-      // otherwise the game continues and a new TFETile must be placed on the board
+      // otherwise the game continues and a new TFETile must be placed on the board.
     }
   }
 
@@ -119,30 +119,30 @@ public class TFEBoard{
       for(int col = 0; col < 4; col++){
         
         for(int row = 1; row < 4; row++){
-          if(!isEmpty(row,col)){ // for every TFETile
+          if(!isEmpty(row,col)){ // for every TFETile,
             int lastSpace = row;
-            for(int row2 = row - 1; row2 >= 0; row2--){ // go through the row
+            for(int row2 = row - 1; row2 >= 0; row2--){ // go through the row,
               if(isEmpty(row2,col)){
-                lastSpace = row2; // find the empty space that the TFETile should move to if it doesn't get merged
-                if(row2 == 0){ // makes sure to move the TFETile if the empty space is the last space checked
+                lastSpace = row2; // find the empty space that the TFETile should move to if it doesn't get merged.
+                if(row2 == 0){ // makes sure to move the TFETile if the empty space is the last space checked.
                   board[lastSpace][col] = board[row][col];
                   board[row][col] = null;
                   break;
                 }
               }
-              else if(board[row][col].equals(board[row2][col])){ // if the TFETile can be merged, than merge it
+              else if(board[row][col].equals(board[row2][col])){ // if the TFETile can be merged, than merge it.
                 board[row2][col].merge();
                 board[row][col] = null;
                 break;
               }
-              else{ // if the TFETile can't get merged, move it to the appropriate empty space
+              else{ // if the TFETile can't get merged, move it to the appropriate empty space.
                 if(lastSpace != row){
                   board[lastSpace][col] = board[row][col];
                   board[row][col] = null;
                 }
                 
                 break;
-              } // this continues for all of WASD, just in different directions
+              } // this continues for all of WASD, just in different directions.
             }
           }
         }

@@ -1,4 +1,9 @@
-
+/**
+ * Represents a single thin wall in games.
+ * 
+ * @author Preston Bohnsack
+ * @version Unreleased
+ */
 public enum ThinWall{
   EMPTY(false),
   FILLED(true);

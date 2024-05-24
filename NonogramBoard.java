@@ -7,8 +7,8 @@ import java.util.*;
  * @version Unreleased
  */
 public class NonogramBoard extends GenericBoard{
-  private final ConsecutiveLine[] rowRuns; // this array stores the runs for each row
-  private final ConsecutiveLine[] colRuns; // this array stores the runs for each column
+  private final ConsecutiveLine[] rowRuns;
+  private final ConsecutiveLine[] colRuns;
 
   /**
    * Starts a Nonogram with a specific board.
@@ -26,7 +26,11 @@ public class NonogramBoard extends GenericBoard{
   public static void startGame(){
    new NonogramBoard(((int)(Math.random() * 4)) + 1);
   }
-  
+
+  /*
+   * Went with a static method instantiating but not returning an AquariumBoard to prevent memory 
+   * leaks by preventing anything from having an alias for it.
+   */
   private NonogramBoard(int num){
     { // selects the board to play on
       Cell f = Cell.FILLED;

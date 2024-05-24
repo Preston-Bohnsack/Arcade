@@ -20,7 +20,6 @@ public class Main{
             in.nextLine();
             System.out.println();
             System.out.println("Invalid input, please choose a number 1-4.");
-            
           }
         }
       }

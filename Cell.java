@@ -1,6 +1,6 @@
 
 /**
- * Represents the 3 possible states a tile in a game can be, UNMARKED, CROSSED_OUT, and 
+ * Represents 3 possible states a tile in a game can be, UNMARKED, CROSSED_OUT, and 
  * FILLED.
  * 
  * @author Preston Bohnsack
@@ -19,12 +19,9 @@ public enum Cell{
 
   public boolean equals(Cell other){return (other != null) && (flag == other.getFlag());}
 
-  /**
+  /*
    * Returns true if both Cells are both filled or both not filled. This is used when determining 
-   * if the board is solved, and correctly returns false if passed a null value.
-   * 
-   * @param other The other Cell to be used in the comparison, which can be null.
-   * @return If 2 Cells are both filled or both not filled.
+   * if the board is solved, and correctly handles null values.
    */
   public boolean solvedEquals(Cell other){
     /*
@@ -43,10 +40,8 @@ public enum Cell{
       case -1 : return Cell.CROSSED_OUT;
       case 0 : return Cell.UNMARKED;
       case 1 : return Cell.FILLED;
+      default : return null;
     }
-
-    return null;
-
   }
 
   public String toString(){
@@ -54,7 +49,8 @@ public enum Cell{
       case -1 : return "X";
       case 0 : return ".";
       case 1 : return "#";
+      default : return "";
     }
-    return "";
   }
+  
 }

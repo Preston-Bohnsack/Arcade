@@ -1,7 +1,7 @@
 import java.util.*;
 
 /**
- * An AquariumBoard is used to play the game Aquaruim
+ * Used to play the game Aquarium.
  * 
  * @author Preston Bohnsack
  * @version Unreleased
@@ -13,9 +13,13 @@ public class AquariumBoard extends GenericBoard{
   private final NumFilledLine[] colRuns;
   private final AquariumCell[][] board;
 
+  /**
+   * Starts a game of Aquarium.
+   */
+
   /*
    * Went with a static method instantiating but not returning an AquariumBoard to prevent memory 
-   * leaks by preventing anyone from having an alias for it.
+   * leaks by preventing anything from having an alias for it.
    */
   public static void startGame(){
     new AquariumBoard();
@@ -206,13 +210,13 @@ public class AquariumBoard extends GenericBoard{
   
   protected void userInput(){
     /*
-      user can input coordinates in the following format
+      user can input coordinates in the following format:
       x y empty
       x y cross
       x y fill
     */
     System.out.println("Please type in the coordinates of the point and what you want to change it to.");
-    System.out.println("  X Y Type eg. 1 1 fill or 5 5 cross or 2 3 empty");
+    System.out.println("The format is X Y type. Ex. 1 1 fill , 6 6 cross , 2 3 empty");
     
     String str = in.nextLine();
     System.out.println();
@@ -225,28 +229,29 @@ public class AquariumBoard extends GenericBoard{
       y = Integer.parseInt(str.substring(2,3)) - 1;
     }
     catch(Exception e){
-      System.out.println("Invalid Coordinates");
+      System.out.println("Invalid Coordinates. Please type an X and Y coordiante seperated by a single space");
       return;
     }
     
     if(y >= 0 && x >= 0 && y < height && x < width){
-      Cell c = board[y][x].getCell();
       switch (cellType) {
         case "empty":
-          c = Cell.UNMARKED;
-          break;
+          board[y][x].setCell(Cell.UNMARKED, true);
+          return;
         case "cross":
-          c = Cell.CROSSED_OUT;
-          break;
+          board[y][x].setCell(Cell.CROSSED_OUT, true);
+          return;
         case "fill":
-          c = Cell.FILLED;
-          break;
+          board[y][x].setCell(Cell.FILLED, true);
+          return;
         default:
-          System.out.println("Invalid Cell Type");
+          System.out.println("Invalid Cell type. The valid Cell types are empty, cross, and fill");
           return;
       }
-      
-      board[y][x].setCell(c, true);
+    }
+    else{
+      System.out.println("X should be between 1 and " + width + ", and Y should be between 1 and " + height);
+      return;
     }
   }
 }
